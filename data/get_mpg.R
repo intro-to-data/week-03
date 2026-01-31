@@ -3,7 +3,6 @@
 ## actual EPA data and make it available for class.
 
 
-
 # SETUP ========================================================================
 # Loads any packages, defines variables needed later.
 library(tidyverse)
@@ -20,12 +19,12 @@ download.file(url = data_url, destfile = local_file)
 unzip(local_file)
 
 # Opens the ZIP file and imports the data.
-data_file <- dir(pattern="xlsx")
+data_file <- dir(pattern = "xlsx")
 if (length(data_file) == 1) {
-  mpg2020 <- read_excel(data_file)  
-} else stop("The ZIP file contains more than one Excel file.")
-
-
+  mpg2020 <- read_excel(data_file)
+} else {
+  stop("The ZIP file contains more than one Excel file.")
+}
 
 
 # TIDY =========================================================================
@@ -33,18 +32,18 @@ attributes(mpg2020)$labels <- names(mpg2020)
 col_names <- names(mpg2020)
 
 ## Generic Changes
-col_names <- gsub("- Conventional Fuel", "", col_names, fixed=TRUE)
-col_names <- gsub("- Alternative Fuel", "", col_names, fixed=TRUE)
-col_names <- gsub(" ", "", col_names, fixed=TRUE)
-col_names <- gsub(".", "", col_names, fixed=TRUE)
-col_names <- gsub("?", "", col_names, fixed=TRUE)
-col_names <- gsub(",", "", col_names, fixed=TRUE)
-col_names <- gsub("-", "", col_names, fixed=TRUE)
-col_names <- gsub("(", "", col_names, fixed=TRUE)
-col_names <- gsub(")", "", col_names, fixed=TRUE)
-col_names <- gsub("=", "", col_names, fixed=TRUE)
-col_names <- gsub("%", "", col_names, fixed=TRUE)
-col_names <- gsub("#", "N", col_names, fixed=TRUE)
+col_names <- gsub("- Conventional Fuel", "", col_names, fixed = TRUE)
+col_names <- gsub("- Alternative Fuel", "", col_names, fixed = TRUE)
+col_names <- gsub(" ", "", col_names, fixed = TRUE)
+col_names <- gsub(".", "", col_names, fixed = TRUE)
+col_names <- gsub("?", "", col_names, fixed = TRUE)
+col_names <- gsub(",", "", col_names, fixed = TRUE)
+col_names <- gsub("-", "", col_names, fixed = TRUE)
+col_names <- gsub("(", "", col_names, fixed = TRUE)
+col_names <- gsub(")", "", col_names, fixed = TRUE)
+col_names <- gsub("=", "", col_names, fixed = TRUE)
+col_names <- gsub("%", "", col_names, fixed = TRUE)
+col_names <- gsub("#", "N", col_names, fixed = TRUE)
 
 
 # Specific Tweaks
@@ -71,7 +70,6 @@ col_names[159] <- "PHEVRange"
 
 # Fix it up.
 names(mpg2020) <- col_names
-
 
 
 # SAVE & CLEAN UP ==============================================================

@@ -2,9 +2,10 @@
 title: "Munge"
 author: "YOUR NAME HERE"
 date: "Week 03"
-format: html
----  
-
+format:
+  html:
+    embed-resources: true
+---
 
 
 # New York City Airbnb
@@ -19,11 +20,12 @@ This lab is based on the New York City Airbnb Open Data from Kaggle. I want you 
 
 ```{r}
 #| fig-align: 'center'
-#| fig-width: '75%'
+#| fig-out: '75%'
 
 url <- "https://imgs.xkcd.com/comics/realistic_criteria.png"
 knitr::include_graphics(url)
 ```
+
 
 # Setup
 
@@ -31,7 +33,7 @@ While not required, starting a new R session will keep your global environment u
 
 ```{r}
 #| fig-align: 'center'
-#| fig-width: '75%'
+#| fig-out: '75%'
 
 url <- "./includes/restart-r-session.png"
 knitr::include_graphics(url)
@@ -53,7 +55,6 @@ abnb <- import("./data/new-york-city-airbnb-open-data.zip")
 - Check the global environment & confirm you have loaded the `abnb` data.
 
 
-
 # Lab
 
 If you are coming back in, run `setup` before working on the tasks below.
@@ -63,11 +64,11 @@ If you are coming back in, run `setup` before working on the tasks below.
 1. Read about the [New York City Airbnb](https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data/data#) data.
     - Your first step with any new data set should be to learn as much as you can about the origins, goals, and biases in the data.
     - And figure out the grain of the data.
-2. Spend a few minutes looking at the data. The "Environment" pane is on the lower right-hand side of the RStudio interface. Click on "abnb" to open the data in a new editor tab. This makes it easier to explore
+2. Spend a few minutes looking at the data. The "Environment" pane is on the lower right-hand side of the RStudio Dekstop interface. Click on "abnb" to open the data in a new editor tab. This makes it easier to explore
 
 ```{r}
 #| fig-align: 'center'
-#| fig-width: '75%'
+#| fig-out: '75%'
 
 url <- "./includes/rstudio-interface.png"
 knitr::include_graphics(url)
@@ -79,14 +80,12 @@ knitr::include_graphics(url)
 - Answer: 
 
 ```{r}
-## YOUR CODE HERE!!!
-dim(abnb)
+## YOUR CODE HERE!!!dim(abnb)
 
 # OR JUST USE THE GUI
 ```
 
 You can solve Task 01 without writing any code.
-
 
 ## Task 02. How many columns are in Airbnb?
 
@@ -94,14 +93,12 @@ You can solve Task 01 without writing any code.
 - Answer: 
 
 ```{r}
-## YOUR CODE HERE!!!
-dim(abnb)
+## YOUR CODE HERE!!!dim(abnb)
 
 # OR JUST USE THE GUI
 ```
 
 You can solve Task 02 without writing any code.
-
 
 ## Task 03. What is the grain of this Airbnb data?
 
@@ -114,7 +111,6 @@ You can solve Task 02 without writing any code.
 - If you aren't familiar with Airbnb, look at [their website](https://www.airbnb.com).
 - If you want to read more about data graininess, [Data Granularity](https://en.wikipedia.org/wiki/Granularity#Data_granularity)
 
-
 ## Task 04. Number of B&Bs are there per `neighbourhood_group`. 
 
 - Question: Which neighborhood has the most B&Bs?
@@ -126,7 +122,6 @@ Task: Draw a bar plot showing the number of B&Bs per `neighbourhood_group` to an
 ## YOUR ANSWER HERE!
 abnb |> count(neighbourhood_group)
 ```
-
 
 ## Task 05. How many B&Bs are in Queens?
 
@@ -143,16 +138,15 @@ Task: Use the dplyr verbs we learned this evening to answer the question. Replac
 abnb |> filter(neighbourhood_group == "Queens")
 
 abnb |>
-    group_by(neighbourhood_group) |>
-    summarize(n = n())
+  group_by(neighbourhood_group) |>
+  summarize(n = n())
 
 abnb |>
-    count(neighbourhood_group)
+  count(neighbourhood_group)
 ```
 
 - Question: In what way is `count()` less useful than `summarize()`?
 - Answer: It is less flexible. Summarize can do many things, like add columns, find the average, etc. Count only counts things.
-
 
 ## Task 06. Room types in the Bronx?
 
@@ -168,7 +162,6 @@ abnb |>
   count(room_type)
 ```
 
-
 ## Task 07. Room price in Belmont?
 
 - Question: What is the average price of a room in Belmont?
@@ -179,13 +172,10 @@ abnb |>
 abnb |>
   filter(neighbourhood == "Belmont") |>
   summarize(avg_price = mean(price))
-
 abnb |>
   filter(neighbourhood == "Belmont", room_type == "Private room") |>
   summarize(avg_price = mean(price))
-
 ```
-
 
 ## Task 08. Predictor of price
 
@@ -196,11 +186,10 @@ Task: Create a scatter plot showing the relationship between the two variables. 
 
 ```{r}
 ## YOUR CODE HERE!
-abnb |> 
+abnb |>
   ggplot(aes(x = number_of_reviews, y = price)) +
   geom_point()
 ```
-
 
 ## Task 09. Host price
 
@@ -221,7 +210,6 @@ abnb |>
 ```
 
 To download your plot, right click on the image and download it to your local computer so you can upload it to Canvas.
-
 
 ## Task 10. Room type outliers
 
@@ -250,7 +238,6 @@ abnb |>
   geom_point()
 ```
 
-
 ## Task 11. Shared room price
 
 - Question: What is the average price of of a "Shared room"?
@@ -267,7 +254,6 @@ abnb |>
   summarize(avg_price = mean(price))
 ```
 
-
 ## Task 12. Shared room count
 
 - Question: How many "Shared room" entries are in the data?
@@ -283,7 +269,6 @@ abnb |>
   summarize(n = n())
 ```
 
-
 ## Task 13. Useful?
 
 - Question: Is this a large enough sample to be useful?
@@ -294,13 +279,13 @@ Nothing to code here. This is a thinking out loud question.
 
 All else being equal, a data scientist would rather have more than less data available. But, collecting data isn't free and takes time. Do you think we have enough data about the price of "Shared Rooms" to properly estimate it's cost in NYC?
 
-
 ## Task 14. Predicting Price
 
 - Question: Which features (columns) do you think would be most useful for predicting price?
 - Answer: Their answer depends on how well the support it. 
 
 Soon we will start thinking about building a linear model to predict Airbnb host price in NYC. Use your transformation/plotting skills to look at the data. Describe what you find in Canvas. You can choose to use data transformation(s), plot(s), or a combination of both. Feel free to create additional code chunks if that is helpful to you.
+
 
 # Next steps
 

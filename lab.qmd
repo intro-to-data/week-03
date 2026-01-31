@@ -2,9 +2,10 @@
 title: "Munge"
 author: "YOUR NAME HERE"
 date: "Week 03"
-format: html
----  
-
+format:
+  html:
+    embed-resources: true
+---
 
 
 # New York City Airbnb
@@ -22,13 +23,14 @@ url <- "https://imgs.xkcd.com/comics/realistic_criteria.png"
 knitr::include_graphics(url)
 ```
 
+
 # Setup
 
 While not required, starting a new R session will keep your global environment uncluttered. To start a new R session, go to the "Session" entry and then go to "Restart R" which is about half-way down the menu. There is a short-cut you can use of Ctrl+Shift+F10. (Confession, I don't use this short-cut. I can never remember it.)
 
 ```{r}
 #| fig-align: 'center'
-#| fig-width: '75%'
+#| fig-out: '75%'
 
 url <- "./includes/restart-r-session.png"
 knitr::include_graphics(url)
@@ -49,7 +51,6 @@ abnb <- import("./data/new-york-city-airbnb-open-data.zip")
 - Check the global environment & confirm you have loaded the `abnb` data.
 
 
-
 # Lab
 
 If you are coming back in, run `setup` before working on the tasks below.
@@ -59,11 +60,11 @@ If you are coming back in, run `setup` before working on the tasks below.
 1. Read about the [New York City Airbnb](https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data/data#) data.
     - Your first step with any new data set should be to learn as much as you can about the origins, goals, and biases in the data.
     - And figure out the grain of the data.
-2. Spend a few minutes looking at the data. The "Environment" pane is on the lower right-hand side of the RStudio interface. Click on "abnb" to open the data in a new editor tab. This makes it easier to explore
+2. Spend a few minutes looking at the data. The "Environment" pane is on the lower right-hand side of the RStudio Desktop interface. Click on "abnb" to open the data in a new editor tab. This makes it easier to explore
 
 ```{r}
 #| fig-align: 'center'
-#| fig-width: '75%'
+#| fig-out: '75%'
 
 url <- "./includes/rstudio-interface.png"
 knitr::include_graphics(url)
@@ -76,11 +77,9 @@ knitr::include_graphics(url)
 
 ```{r}
 ## YOUR CODE HERE!!!
-
 ```
 
 You can solve Task 01 without writing any code.
-
 
 ## Task 02. How many columns are in Airbnb?
 
@@ -89,11 +88,9 @@ You can solve Task 01 without writing any code.
 
 ```{r}
 ## YOUR CODE HERE!!!
-
 ```
 
 You can solve Task 02 without writing any code.
-
 
 ## Task 03. What is the grain of this Airbnb data?
 
@@ -106,7 +103,6 @@ You can solve Task 02 without writing any code.
 - If you aren't familiar with Airbnb, look at [their website](https://www.airbnb.com).
 - If you want to read more about data graininess, [Data Granularity](https://en.wikipedia.org/wiki/Granularity#Data_granularity)
 
-
 ## Task 04. Number of B&Bs are there per `neighbourhood_group`. 
 
 - Question: Which neighborhood has the most B&Bs?
@@ -118,7 +114,6 @@ Task: Draw a bar plot showing the number of B&Bs per `neighbourhood_group` to an
 ## YOUR ANSWER HERE!
 
 ```
-
 
 ## Task 05. How many B&Bs are in Queens?
 
@@ -147,7 +142,6 @@ abnb |>
 - Question: In what way is `count()` less useful than `summarize()`?
 - Answer: 
 
-
 ## Task 06. Room types in the Bronx?
 
 - Question: What type of room is most common in the Bronx?
@@ -160,7 +154,6 @@ Which way would you prefer to solve this? `dplyr` or `ggplot`
 
 ```
 
-
 ## Task 07. Room price in Belmont?
 
 - Question: What is the average price of a room in Belmont?
@@ -170,7 +163,6 @@ Which way would you prefer to solve this? `dplyr` or `ggplot`
 ## YOUR CODE HERE!
 
 ```
-
 
 ## Task 08. Predictor of price
 
@@ -183,7 +175,6 @@ Task: Create a scatter plot showing the relationship between the two variables. 
 ## YOUR CODE HERE!
 
 ```
-
 
 ## Task 09. Host price
 
@@ -202,7 +193,6 @@ Task: Draw a density plot of host price and upload it to Canvas.
 ```
 
 To download your plot, right click on the image and download it to your local computer so you can upload it to Canvas.
-
 
 ## Task 10. Room type outliers
 
@@ -227,7 +217,6 @@ STRETCH: Can you think of another way to answer this question that would not rel
 
 ```
 
-
 ## Task 11. Shared room price
 
 - Question: What is the average price of of a "Shared room"?
@@ -237,7 +226,6 @@ STRETCH: Can you think of another way to answer this question that would not rel
 ## YOUR CODE HERE!
 
 ```
-
 
 ## Task 12. Shared room count
 
@@ -249,7 +237,6 @@ STRETCH: Can you think of another way to answer this question that would not rel
 
 ```
 
-
 ## Task 13. Useful?
 
 - Question: Is this a large enough sample to be useful?
@@ -259,7 +246,6 @@ STRETCH: Can you think of another way to answer this question that would not rel
 Nothing to code here. This is a thinking out loud question.
 
 All else being equal, a data scientist would rather have more than less data available. But, collecting data isn't free and takes time. Do you think we have enough data about the price of "Shared Rooms" to properly estimate it's cost in NYC?
-
 
 ## Task 14. Predicting Price
 
@@ -272,6 +258,7 @@ Soon we will start thinking about building a linear model to predict Airbnb host
 ## YOUR CODE HERE!
 
 ```
+
 
 # Next steps
 

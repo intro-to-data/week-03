@@ -1,17 +1,18 @@
----
+--
 title: "Munge"
 author: "Intro to Data Science"
 date: "Week 03"
-format: html
+format:
+  html:
+    embed-resources: true
 ---
-
 
 
 # Goals
 
 - Lecture 01: Goals/Setup
 - Lecture 02: Ggplot Review
-- Lecture 03: Intro To Data Munging
+- Lecture 03: Intro To Data Munging <- This is where we will start in class.
 - Lecture 04: `filter()`
 - Lecture 05: `count()`
 - Lecture 06: `summarize()`
@@ -24,11 +25,10 @@ format: html
 Most of these will be SHORT lectures. I'm cutting them up to make them more accessible.
 
 
-
 # Setup
 
 - All of the lectures will be based on `lecture.qmd` and are based on a single session.
-- How I organize RStudio.
+- How I organize RStudio Desktop.
 - Tonight's data: Fuel Economy 2020
     - The US Federal Government publishes annual estimates for the mileage of cars sold in the US each year.
     - Raw Source: [https://www.fueleconomy.gov/](https://www.fueleconomy.gov/) 
@@ -37,7 +37,8 @@ Most of these will be SHORT lectures. I'm cutting them up to make them more acce
     - If you want to look yourself, at the bottom of the page, "Download EPA's MPG Ratings"
 - The data extract we will use is in the `data` folder.
 
-```{r setup}
+```{r}
+#| label: setup
 #| message: false
 #| warnding: false
 
@@ -68,7 +69,6 @@ mpg
 ## Uppercase "V" here is important!
 View(mpg)
 ```
-
 
 
 # Lecture 02: Ggplot Review
@@ -103,7 +103,7 @@ For example:
 #| echo: false
 
 mpg |>
-    filter(MfrName == "General Motors")
+  filter(MfrName == "General Motors")
 ```
 
 - One line, one observation, one car model sold, but not the number of times sold.
@@ -118,7 +118,7 @@ Below, is a SIMPLE example. Using this week's data, this plot shows that there i
 
 ```{r}
 ggplot(data = mpg, aes(x = City, y = Hwy)) +
-    geom_point()
+  geom_point()
 ```
 
 - Above, we can see that if we have two commands, we get a plot.
@@ -132,9 +132,9 @@ ggplot(data = mpg, aes(x = City, y = Hwy)) +
 
 ```{r}
 ggplot(data = mpg, aes(x = MfrName)) +
-    geom_bar(fill = "darkred") +
-    labs(x = "Manufacturer", y = "Count", title = "Number of Models Sold") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  geom_bar(fill = "darkred") +
+  labs(x = "Manufacturer", y = "Count", title = "Number of Models Sold") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 - What if we want to show percents instead of raw numbers? 
@@ -142,10 +142,10 @@ ggplot(data = mpg, aes(x = MfrName)) +
 
 ```{r}
 ggplot(data = mpg, aes(x = MfrName)) +
-    geom_bar(aes(y = 100 * (..count..) / sum(..count..)), fill = "darkred") +
-    ylim(0, 15) +
-    labs(x = "Manufacturer", y = "Percent") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  geom_bar(aes(y = 100 * (..count..) / sum(..count..)), fill = "darkred") +
+  ylim(0, 15) +
+  labs(x = "Manufacturer", y = "Percent") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 - This plot aggregates (rolls up) a series of individual rows and GROUPS the results by manufacturer.
@@ -160,14 +160,13 @@ ggplot(data = mpg, aes(x = MfrName)) +
 
 ```{r}
 ggplot(data = mpg, aes(x = MfrName)) +
-    geom_bar(aes(y = 100 * (..count..) / sum(..count..)), fill = "darkred") +
-    ylim(0, 20) +
-    labs(x = "Manufacturer", y = "Percent") +
-    coord_flip()
+  geom_bar(aes(y = 100 * (..count..) / sum(..count..)), fill = "darkred") +
+  ylim(0, 20) +
+  labs(x = "Manufacturer", y = "Percent") +
+  coord_flip()
 ```
 
 In this case, I actually like the sideways text, but that is for purely aesthetic reasons.
-
 
 
 # Lecture 03: Intro to Data Munging
@@ -185,7 +184,7 @@ In this case, I actually like the sideways text, but that is for purely aestheti
 #| echo: false
 
 mpg |>
-    filter(MfrName == "General Motors")
+  filter(MfrName == "General Motors")
 ```
 
 
@@ -206,7 +205,31 @@ With their powers combined, we can perform many interesting transformations of o
 
 **BIG IDEA:** The data you have is ALMOST NEVER the data you want.
 
+# Vaccine Hesitancy
 
+- Measles was declared eliminated in the United States in 2000.
+Eliminated means no endemic (internal) transmission of measles.
+  - Cases still exist because measles exists in the world and someone could travel here and become symptomatic.
+- There were more known cases of measles in 2025 than had been seen in decades.
+- At this point, it is academic to argue about the status of measles in the US in 2026. Measles is endemic to the United States.
+- The following table, from the CDC, troubles me.
+
+|             | CY 2026 YTD | CY 2025 |
+|:------------|------------:|--------:|
+| Total Cases |         416 |    2255 |
+
+| Age           | CY 2026 YTD | CY 2025   |
+|:--------------|------------:|----------:|
+| Under 5 years	|   102 (25%) | 577 (26%) |
+| 5-19 years    |   252 (61%) | 993 (44%) |
+| 20+ years	    |    42 (10%) | 670 (30%) |
+| Age unknown   |    20  (5%) |  15  (1%) |
+
+- Ninety three percent of the cases were in unvaccinated people.
+- Seventy percent of the measles cases were in people 19 years old or younger.
+- Yet, only 21.5% of the United States is younger than 18.
+
+Why? How do we change this narrative?
 
 # Lecture 04: Filter
 
@@ -261,18 +284,18 @@ Compare the city gas mileage of Civics to the rest of the cars.
 
 ## The distribution of city mileage for civics.
 ggplot(civics, aes(x = City)) +
-    geom_density(color = "darkgreen") +
-    labs(title = "Civics")
+  geom_density(color = "darkgreen") +
+  labs(title = "Civics")
 
 ## The distribution of city mileage for all.
 ggplot(mpg, aes(x = City)) +
-    geom_density(color = "darkred") +
-    labs(title = "All")
+  geom_density(color = "darkred") +
+  labs(title = "All")
 
 ## The distribution of city mileage for all.
 ggplot(not_civics, aes(x = City)) +
-    geom_density(color = "darkblue") +
-    labs(title = "Not Civics")
+  geom_density(color = "darkblue") +
+  labs(title = "Not Civics")
 ```
 
 Some takeaways:
@@ -284,7 +307,6 @@ Some takeaways:
 5. The first function parameter in EVERY function we have used today has been a data set.
 
 
-
 # Lecture 05: Count
 
 - Count is a convenience function. It makes it easy, to count things.
@@ -292,9 +314,9 @@ Some takeaways:
 
 ```{r}
 ggplot(data = mpg, aes(x = MfrName)) +
-    geom_bar(fill = "darkred") +
-    labs(x = "Manufacturer", y = "Count") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  geom_bar(fill = "darkred") +
+  labs(x = "Manufacturer", y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 - It shows us the number of car models for each manufacturer. 
@@ -308,8 +330,6 @@ count(mpg, MfrName)
 ```
 
 - This summary table summarizes the 1,164 rows of data into a summary table with 26 rows.
-
-
 
 
 # Lecture 06: Summarize
@@ -329,27 +349,25 @@ And we can see how this plays out when we run some summary statistics on the `ci
 
 ```{r}
 summarize(
-    civics,
-    N = n(),
-    CityAvg = mean(City),
-    CitySD = sd(City),
-    CityMin = min(City),
-    CityMax = max(City)
+  civics,
+  N = n(),
+  CityAvg = mean(City),
+  CitySD = sd(City),
+  CityMin = min(City),
+  CityMax = max(City)
 )
 
 summarize(
-    mpg,
-    N = n(),
-    CityAvg = mean(City),
-    CitySD = sd(City),
-    CityMin = min(City),
-    CityMax = max(City)
+  mpg,
+  N = n(),
+  CityAvg = mean(City),
+  CitySD = sd(City),
+  CityMin = min(City),
+  CityMax = max(City)
 )
-
 ```
 
 Does this make sense, in the context of our data set and density plot above?
-
 
 
 # Lecture 07: Group By
@@ -361,23 +379,21 @@ Does this make sense, in the context of our data set and density plot above?
 
 ```{r}
 ggplot(data = mpg, aes(x = MfrName)) +
-    geom_bar(fill = "darkred") +
-    labs(x = "Manufacturer", y = "Count") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  geom_bar(fill = "darkred") +
+  labs(x = "Manufacturer", y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 count(mpg, MfrName)
 ```
 
-
-
 ```{r}
 grouped_mpg <- group_by(mpg, MfrName)
 summarize(grouped_mpg,
-    N = n(),
-    CityAvg = mean(City),
-    CitySD = sd(City),
-    CityMin = min(City),
-    CityMax = max(City)
+  N = n(),
+  CityAvg = mean(City),
+  CitySD = sd(City),
+  CityMin = min(City),
+  CityMax = max(City)
 )
 ```
 
@@ -386,11 +402,11 @@ summarize(grouped_mpg,
 ```{r}
 grouped_civics <- group_by(civics, Carline)
 summarize(grouped_civics,
-    N = n(),
-    CityAvg = mean(City),
-    CitySD = sd(City),
-    CityMin = min(City),
-    CityMax = max(City)
+  N = n(),
+  CityAvg = mean(City),
+  CitySD = sd(City),
+  CityMin = min(City),
+  CityMax = max(City)
 )
 ```
 
@@ -412,38 +428,37 @@ In truth, `group_by()` is a convenience function. We could, if we wanted write:
 ```{r}
 ## This just concatenates the results together into a single tibble.
 bind_rows(
-    ## This is where the real action is at.
-    ## I'm doing the SAME calculation three times!
-    ## This is hard to read and hard to maintain.
-    summarize(
-        filter(civics, Carline == "CIVIC 2DR"),
-        Carline = "CIVIC 2DR",
-        N = n(),
-        CityAvg = mean(City),
-        CitySD = sd(City),
-        CityMin = min(City),
-        CityMax = max(City)
-    ),
-    summarize(
-        filter(civics, Carline == "CIVIC 4Dr"),
-        Carline = "CIVIC 4Dr",
-        N = n(),
-        CityAvg = mean(City),
-        CitySD = sd(City),
-        CityMin = min(City),
-        CityMax = max(City)
-    ),
-    summarize(
-        filter(civics, Carline == "CIVIC 5DR"),
-        Carline = "CIVIC 5DR",
-        N = n(),
-        CityAvg = mean(City),
-        CitySD = sd(City),
-        CityMin = min(City),
-        CityMax = max(City)
-    )
+  ## This is where the real action is at.
+  ## I'm doing the SAME calculation three times!
+  ## This is hard to read and hard to maintain.
+  summarize(
+    filter(civics, Carline == "CIVIC 2DR"),
+    Carline = "CIVIC 2DR",
+    N = n(),
+    CityAvg = mean(City),
+    CitySD = sd(City),
+    CityMin = min(City),
+    CityMax = max(City)
+  ),
+  summarize(
+    filter(civics, Carline == "CIVIC 4Dr"),
+    Carline = "CIVIC 4Dr",
+    N = n(),
+    CityAvg = mean(City),
+    CitySD = sd(City),
+    CityMin = min(City),
+    CityMax = max(City)
+  ),
+  summarize(
+    filter(civics, Carline == "CIVIC 5DR"),
+    Carline = "CIVIC 5DR",
+    N = n(),
+    CityAvg = mean(City),
+    CitySD = sd(City),
+    CityMin = min(City),
+    CityMax = max(City)
+  )
 )
-
 
 summarize(
   group_by(civics, Carline),
@@ -456,7 +471,6 @@ summarize(
 ```
 
 And now, I hope, you can better understand why `group_by()`, like `facet_wrap()`, exists. It doesn't do anything _new_, it just does it more easily.
-
 
 
 # THE PIPE
@@ -472,14 +486,14 @@ Pipes (`|>`) offer a better way!
 ## When using a pipe, the result set from the previous function is called ".".
 ## This is a convention. It could have been Bob, but it is called ".".
 civics |>
-    group_by(Carline) |>
-    summarize(
-        N = n(),
-        CityAvg = mean(City),
-        CitySD = sd(City),
-        CityMin = min(City),
-        CityMax = max(City)
-    )
+  group_by(Carline) |>
+  summarize(
+    N = n(),
+    CityAvg = mean(City),
+    CitySD = sd(City),
+    CityMin = min(City),
+    CityMax = max(City)
+  )
 ```
 
 This is EXACTLY the same as what we did above, but we did it in a single step. The pipe symbol `|>` sends the output from one function to the input of the next function and works when the first parameter of the function is the data. That's why I kept pointing this out. We can do all sorts of piping!
@@ -487,7 +501,7 @@ This is EXACTLY the same as what we did above, but we did it in a single step. T
 If you see me type: `%>%`:
 
   - `|>` is the new R pipe.
-  - If I ever use `%>%`, it is basically the same thing. 
+  - If/ when you see the pipe from the magrittr package (`%>%`), it is basically the same thing. 
   - The only difference is that `|>` is part part of base R and `%>%` is part of a package. But the idea proved to be so popular they decided requiring a package for a pipe ought not be necessary.
 
 ### Using pipes, calculate the mean, sd, min, and max values of City mileage for Honda Civics.
@@ -496,29 +510,29 @@ If you see me type: `%>%`:
 
 ```{r}
 easy_summary_civics <-
-    mpg |>
-    filter(str_detect(Carline, "CIVIC")) |>
-    group_by(Carline) |>
-    summarize(
-        N = n(),
-        CityAvg = mean(City),
-        CitySD = sd(City),
-        CityMin = min(City),
-        CityMax = max(City)
-    )
+  mpg |>
+  filter(str_detect(Carline, "CIVIC")) |>
+  group_by(Carline) |>
+  summarize(
+    N = n(),
+    CityAvg = mean(City),
+    CitySD = sd(City),
+    CityMin = min(City),
+    CityMax = max(City)
+  )
 
 easy_summary_civics
 ```
 
 ```{r}
-ggplot(easy_summary_civics, aes(x = Carline, y = CityMax)) + geom_col()
+ggplot(easy_summary_civics, aes(x = Carline, y = CityMax)) +
+  geom_col()
 
-ggplot(civics, aes(x = Carline)) + geom_bar()
+ggplot(civics, aes(x = Carline)) +
+  geom_bar()
 ```
 
-
 Thanks to the pipe operator (`|>`), we can avoid creating a million data-step data sets. This is kinda-sorta available in SAS, but it is not taught as a best practice. In modern R programming, using the pipe is considered best practice and is how this stuff gets taught.
-
 
 
 # Lecture 08: Arrange
@@ -543,7 +557,9 @@ This function is a useful function on your labs!!!!!! For example, say I ask a q
 So, there are over 1,000 rows in mpg. I don't think you want to go searching through that by hand. In fact, I KNOW you don't. (If you do, let's talk after class.) Fortunately, arrange makes it easy.
 
 ```{r}
-mpg |> arrange(desc(Hwy)) |> select(MfrName, Carline, Hwy)
+mpg |>
+  arrange(desc(Hwy)) |>
+  select(MfrName, Carline, Hwy)
 ```
 
 ## Combine ggplot and dplyr!
@@ -552,15 +568,15 @@ Task: What is the percent of cars by car class (`CarlineClassDesc`). Using this,
 
 ```{r}
 mpg |>
-    count(CarlineClassDesc) |>
-    mutate(p = 100 * n / sum(n)) |>
-    ## arrange(desc(p)) |>
-    ggplot(aes(x = p, y = CarlineClassDesc)) +
-    ## Don't use geom_col b/c of the grain of the data coming into ggplot.
-    geom_col(fill = "darkred") +
-    ## Please note what I did here. I capped the plot at 25%.
-    xlim(0, 100) +
-    labs(title = "The greatest plot in history", x = "Percent", y = "Car Class")
+  count(CarlineClassDesc) |>
+  mutate(p = 100 * n / sum(n)) |>
+  ## arrange(desc(p)) |>
+  ggplot(aes(x = p, y = CarlineClassDesc)) +
+  ## Don't use geom_col b/c of the grain of the data coming into ggplot.
+  geom_col(fill = "darkred") +
+  ## Please note what I did here. I capped the plot at 25%.
+  xlim(0, 100) +
+  labs(title = "The greatest plot in history", x = "Percent", y = "Car Class")
 ```
 
 There's a lot going on here, but you've seen ALMOST all of it before.
@@ -571,7 +587,6 @@ There's a lot going on here, but you've seen ALMOST all of it before.
 4. THERE ARE TWO PIPES (sorta)
     - Data Transformations: `|>` (Pass it along this way >)
     - Data Viz: `+` (Add another layer)
-
 
 
 # Conclusions
@@ -603,3 +618,32 @@ For example, this data does NOT include EVERY vehicle sold in the US. From the P
 I lack the domain expertise to tell you if this is a good or bad decision. However, the fact remains that this data is incomplete.
 
 https://www.caranddriver.com/features/a15388892/the-truth-about-epa-city-highway-mpg-estimates/
+
+## Data Is Disappearing
+
+> CDC’s website is being modified to comply with President Trump’s Executive Orders
+
+- As of January (barely) 2026, Federal Agencies such as the CDC have been removed or limited the utility of many long-running data sets.
+  - The administration's data deletion spree began in January 2025.
+  - Executive Order 14168: Ending Radical and Wasteful Government DEI Programs and Preferencing
+  - Executive Order 14151: Defending Women from Gender Ideology Extremism and Restoring Biological Truth to the Federal Government
+- The deleted content included:
+  - Public health information relating to LGBTQ health, 
+  - Gender and reproductive health,
+  - Vaccine guidance,
+  - Mpox treatment,
+  - pregnancy risk,
+  - opioid use disorder,
+  - HIV/AIDS research, and the NIH HIV Risk reduction tool,
+  - data from clinical trials, and more
+  - All data has limitations. This is censorship. This is an attempt to reframe the narrative. The loudest voice wins when there is no truth.
+    - State-level crime data and data on LGBTQ hate crimes.
+    - The National Law Enforcement Accountability Database, which tracked federal police officer misconduct.
+    - Not One More Report on missing and and murdered Native Americans.
+    - Youth Risk Behavior Surveillance System was later restored, but missing code books and information needed to use the data.
+- September 2, 2025 A judge issued an order in Washington State Medical Association et al. v. Kennedy et al requiring DHS to restore the delted data because the Federal government had failed to follow the legal procedure for removing such resources.
+  - Additional context: the court order requires the government to restore a few hundred data sets.
+  - The government has remove over 8,000 websites and 3,000 data sets.
+- Links:
+  - [HHS Agrees to Settlement Requiring the Restoration of Deleted Health Data and Websites](https://www.hipaajournal.com/hhs-settlement-lawsuit-restore-critical-health-information-federal-websites/): September 10, 2025
+  - [2025 United States government online resource removals](https://en.wikipedia.org/wiki/2025_United_States_government_online_resource_removals)
