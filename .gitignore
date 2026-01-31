@@ -1,9 +1,11 @@
-*.html
 *.Rproj
-*.zip
+*.html
 *.xlsx
-.Rproj.user
-.Rhistory
+*.zip
 .RData
+.Rhistory
+.Rproj.user
 .Ruserdata
+.doit.db
 data/class_survey_original.csv
+__pycache__/*
