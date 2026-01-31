@@ -68,7 +68,7 @@ def task_zip():
     files.extend(Path(".").glob("*.R"))
     files.extend(Path(".").glob("*.Rproj"))
     files.extend(Path(".").glob("*.qmd"))
-    files.remove(Path("./lab-answers.qmd"))
+    files.remove(Path("./lab-answers-week-03.qmd"))
     files = [f.relative_to(Path(".")) for f in files]
     target = Path("week-03.zip")
     return{
